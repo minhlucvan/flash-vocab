@@ -16,6 +16,9 @@ const options: Module<ConfigState, any> =  {
         setError: (state: ConfigState, error: any) => {
             state.error = error;
         },
+        clearError: (state) => {
+            state.error = null;
+        },
     },
     actions: {
         error: (context: ActionContext<ConfigState, any>, action: any) => {

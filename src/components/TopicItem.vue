@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper" v-if="topic" v-bind:style="{ backgroundImage: `url(${topic.cover})` }">
-    <router-link :to="{ name: 'topic', params: { slug: topic.slug }}">
+    <router-link :to="{ name: 'topic', params: { tslug: topic.slug }}">
       <div class="content">
         <h3 class="title">{{ topic.name }}</h3>
         <div class="desc">

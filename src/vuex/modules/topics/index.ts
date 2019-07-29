@@ -25,6 +25,9 @@ export default {
         setTopic: (state: TopicsState, topic: any) => {
             state.topic = topic;
          },
+         clearTopic: (state: TopicsState) => {
+            state.topic = null;
+         },
     },
     actions: {
         bindTopics: firestoreAction((context) => {

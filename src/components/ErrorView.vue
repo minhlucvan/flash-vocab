@@ -23,9 +23,7 @@ import { Icon  } from 'semantic-ui-vue';
 export default class ErrorView extends Vue {
 
   public mounted() {
-    this.$store.watch((state, getters) => {
-      return state.config.error;
-    }, (o, n) => this.$forceUpdate());
+    this.$store.commit('clearError');
   }
 
   get error() {

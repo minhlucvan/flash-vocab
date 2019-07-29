@@ -49,12 +49,12 @@ export default {
         bindWordsByTopic: firestoreAction(async (context, action: any) => {
             const slug = action.slug;
 
-            await context.dispatch('bindTopicBySlug', { slug });
+            const res = await context.dispatch('bindTopicBySlug', { slug });
             return context.dispatch('shuffleWordOfTopic');
         }),
         shuffleWordOfTopic: firestoreAction(async (context) => {
             const words = ((context.rootState as any).topics.topic.words);
-            const wordRef = randomPick(words).ref;
+            const wordRef = randomPick(words);
             return  context.bindFirestoreRef('word', wordRef);
         }),
     },

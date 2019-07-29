@@ -4,6 +4,7 @@ import Home from './views/Home.vue';
 import Word from './views/Word.vue';
 import Topics from './views/Topics.vue';
 import Topic from './views/Topic.vue';
+import TopicShuffle from './views/TopicShuffle.vue';
 
 Vue.use(Router);
 
@@ -17,19 +18,26 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/word/:slug',
-      name: 'word-detail',
-      component: Word,
-    },
-    {
       path: '/topics',
       name: 'topic-list',
       component: Topics,
     },
     {
-      path: '/topic/:slug',
+      path: '/topic/:tslug',
       name: 'topic',
       component: Topic,
+      children: [
+        {
+          path: 'shuffle',
+          name: 'topic-shuffle',
+          component: TopicShuffle,
+        },
+        {
+          path: 'word/:wslug',
+          name: 'topic-word-detail',
+          component: Word,
+        },
+      ],
     },
     {
       path: '/about',
