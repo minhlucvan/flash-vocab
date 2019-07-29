@@ -1,8 +1,11 @@
 @import  '../../node_modules/semantic-ui-css/semantic.css';
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
-*{
+@import '../../node_modules/animate.css/animate.css';
+
+* {
     font-family: 'Ubuntu';
 }
+
 body{
         background-color: #EEEEEE;
 }

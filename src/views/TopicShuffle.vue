@@ -12,8 +12,17 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 @Component
 export default class TopicShuffle extends Vue {
 
-    public mounted() {
+
+    @Watch('topic')
+    public update() {
+        if (!this.$store.state.topics.topic ) {
+            return;
+        }
         this.$store.dispatch('shuffleWordOfTopic');
+    }
+
+    public mounted() {
+        this.update();
     }
 }
 </script>

@@ -22,6 +22,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 @Component({
     props: {
         word: Object,
+        ttl: Number,
     },
 })
 export default class WordCard extends Vue {}
