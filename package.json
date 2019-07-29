@@ -9,12 +9,17 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "firebase": "^6.3.3",
     "register-service-worker": "^1.6.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-vue": "^0.8.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.1.0",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1"
+    "vuefire": "^2.1.0",
+    "vuex": "^3.0.1",
+    "vuexfire": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
