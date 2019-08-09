@@ -6,10 +6,13 @@
             </div>
             <div class="card--bottom">
                 <div class="card--bottom-headline">
-                    <h1 class="card--headline">{{word.word}}</h1>
+                    <h1 class="card--headline">
+                        <span>{{word.word}}</span>
+                        <!-- <audio controls b-bind:src="word.audio"></audio> -->
+                    </h1>
                 </div>
                     <div class="card--bottom-text">
-                        <p class="card--text">{{word.sentence}}</p>
+                        <p class="card--text">{{word.senntence}}</p>
                     </div>
             </div>
         </div>
@@ -82,5 +85,8 @@ export default class WordCard extends Vue {}
     .card-img {
         width: 100%;
         height: 100%;
+    }
+    .card--bottom-text {
+        padding: 40px;
     }
 </style>

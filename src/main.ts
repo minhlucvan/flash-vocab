@@ -7,12 +7,15 @@ import firestore from './firestore';
 import './styles/index.scss';
 import './sui';
 import './registerServiceWorker';
+import { Firebase } from './firebase/firebase';
 
 Vue.config.productionTip = false;
+
+Firebase.init();
 
 new Vue({
   router,
   store,
-  firestore,
+  // firestore,
   render: (h) => h(App),
 }).$mount('#app');

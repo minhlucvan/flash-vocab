@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <UserCard v-if="isAuth"></UserCard>
+    <LoginGoogle v-else></LoginGoogle>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import LoginGoogle from '@/components/LoginGoogle.vue';
+import UserCard from '@/components/UserCard.vue';
 
 @Component({
   components: {
-    HelloWorld,
+    LoginGoogle,
+    UserCard,
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  get isAuth() {
+    return this.$store.state.auth.isAuth;
+  }
+}
 </script>

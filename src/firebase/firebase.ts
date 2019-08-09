@@ -1,22 +1,39 @@
 import * as firebase from 'firebase';
 import { FIREBASE_CONFIG } from '@/config';
+import store from '@/store';
 
-let app: firebase.app.App;
+export class Firebase {
 
-export function initApp() {
-  app = firebase.initializeApp(FIREBASE_CONFIG);
-  return app;
-}
+  public static init() {
+    this.app = firebase.initializeApp(FIREBASE_CONFIG);
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
-export function getApp(): firebase.app.App {
-  if (!app) {
-    return initApp();
+    this.app.auth().onAuthStateChanged((auth) => {
+      if ( !auth ) {
+         return store.commit('clearAuth');
+      }
+      const { displayName, photoURL, email }  = auth;
+      const user = { displayName, email, photoURL };
+      return store.commit('setAuth', user );
+    });
   }
 
-  return app;
-}
+  public static  login() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+  }
 
+  public static  logout() {
+    firebase.auth().signOut();
+  }
 
-export function getDb() {
-  return getApp().firestore();
+  public static getApp(): firebase.app.App {
+    return this.app;
+  }
+
+  public static getDb() {
+    return this.getApp().firestore();
+  }
+
+  private static app: firebase.app.App;
 }

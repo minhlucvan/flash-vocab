@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import { firestorePlugin } from 'vuefire';
-import { getApp } from './firebase/firebase';
+import { Firebase } from './firebase/firebase';
 
-const app = getApp();
+const app = Firebase.getApp();
 const db = app.firestore();
 
 

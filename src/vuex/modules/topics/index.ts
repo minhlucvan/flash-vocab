@@ -1,9 +1,7 @@
 import { firestoreAction } from 'vuexfire';
-import { getDb } from '@/firebase/firebase';
+import { Firebase } from '@/firebase/firebase';
 import { ActionContext } from 'vuex';
 import { ApplicationErrorAction } from '../config/actions';
-
-const db = getDb();
 
 class TopicNotFoundError extends ApplicationErrorAction {
     constructor() {
@@ -31,9 +29,11 @@ export default {
     },
     actions: {
         bindTopics: firestoreAction((context) => {
+            const db = Firebase.getDb();
             return context.bindFirestoreRef('topics', db.collection('topics'));
         }),
         bindTopicBySlug: async (context: ActionContext<TopicsState , any>, { slug }: any) => {
+            const db = Firebase.getDb();
             const res = await db.collection('topics').where('slug', '==', slug).get();
             const doc = res.docs.shift();
             if ( !doc ) {

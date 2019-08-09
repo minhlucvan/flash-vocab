@@ -28,13 +28,8 @@ export default new Router({
       component: Topic,
       children: [
         {
-          path: 'shuffle',
-          name: 'topic-shuffle',
-          component: TopicShuffle,
-        },
-        {
-          path: 'word/:wslug',
-          name: 'topic-word-detail',
+          path: 'word',
+          name: 'word-detail',
           component: Word,
         },
       ],
