@@ -1,20 +1,16 @@
 <template>
   <div class="home">
-    <UserCard v-if="isAuth"></UserCard>
-    <LoginGoogle v-else></LoginGoogle>
+    <EnterButton></EnterButton>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import LoginGoogle from '@/components/LoginGoogle.vue';
-import UserCard from '@/components/UserCard.vue';
+import EnterButton from '@/components/EnterButton.vue';
 
 @Component({
   components: {
-    LoginGoogle,
-    UserCard,
+    EnterButton,
   },
 })
 export default class Home extends Vue {

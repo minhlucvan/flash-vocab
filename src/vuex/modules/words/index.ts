@@ -1,87 +1,101 @@
-import { firestoreAction } from 'vuexfire';
-import { ActionContext, Action } from 'vuex';
-import { Firebase } from '@/firebase/firebase';
-import { ApplicationError } from '@/errors';
 import { ApplicationErrorAction } from '../config/actions';
-import { randomPick } from '@/utils/array';
+import { IWord } from '@/models/Word';
+import { ActionContext, Module } from 'vuex';
+import * as api from '@/apis/api';
 
 class WordNotFoundError extends ApplicationErrorAction {
     constructor() {
         super('word not found!');
     }
 }
-
-export interface WordsState {
-    words: any;
-    selectedId: any;
-    word: any;
+export interface IWordsPlayer {
+    wordIds: string[];
+    topicSlug: string;
+    wordIndex: number;
+    size: number;
+    ttl: number;
+    paused: boolean;
 }
 
-export default {
+export interface WordsState {
+    words: IWord[];
+    player: IWordsPlayer;
+}
+
+const wordModule: Module<WordsState, any> = {
+    namespaced: true,
     state: {
         words: [],
-        word: null,
-        selectedId: null,
+        player: {
+            wordIds: [],
+            topicSlug: '',
+            wordIndex: 0,
+            size: 0,
+            ttl: 30,
+            paused: true,
+        },
     },
     mutations: {
-        setWord: (state: WordsState, word: any) => {
-           state.word = word;
-        },
-        clearWord: (state: WordsState, word: any) => {
-            state.word = null;
-        },
-        setWords: (state: any, words: any) => {
+       setWords: (state: WordsState, words: IWord[]) => {
             state.words = words;
-        },
-        selectWord: (state: any, id: any) => {
-            state.selectedId = id;
-        },
+       },
+       setIds: (state: WordsState, ids: string[]) => {
+            state.player.wordIds = ids;
+       },
+       setTopic: (state: WordsState, slug: string) => {
+        state.player.topicSlug = slug;
+       },
+       setWordIndex: (state: WordsState, index: number) => {
+        state.player.wordIndex = index;
+       },
     },
     actions: {
-        bindWords: firestoreAction(
-            (context) => {
-                const db = Firebase.getDb();
-                return context.bindFirestoreRef('words', db.collection('words'));
-            },
-        ),
-        bindWordBySlug: async (context: ActionContext<WordsState, any>, { set, topic, slug }: any) => {
-            const db = Firebase.getDb();
-            const res = await db.collection('words').where('slug', '==', slug).get();
-            const doc = res.docs.shift();
-            if ( !doc ) {
-                return context.dispatch(new WordNotFoundError());
-            }
-
-            const word = doc.data();
-            context.commit('setWord', word);
+       getWords: async (context: ActionContext<WordsState, any>) => {
+            const res = await api.getWords();
+            const words  = (res.result || []).map((word) => {
+                word.topics  = {};
+                word.id = '' + word.index;
+                if (word && word.index <= 300) {
+                    word.topics['topic-1'] = true;
+                }
+                return word;
+            });
+            context.commit('setWords', words);
+       },
+       selectWordByTopic: (context: ActionContext<WordsState, any>, slug) => {
+            const words: IWord[] = context.getters.wordsByTopics(slug || context.state.player.topicSlug);
+            const ids = words.map((word) => word.id);
+            context.commit('setIds', ids);
+       },
+       selectTopic: async (context: ActionContext<WordsState, any>, slug) => {
+           if ( !context.getters.hasWords ) {
+               await context.dispatch('getWords');
+           }
+           await context.commit('setTopic', slug);
+           return context.dispatch('selectWordByTopic');
+       },
+       next: (context: ActionContext<WordsState, any>) => {
+            context.commit('setWordIndex', context.getters.nextIndex);
+       },
+       back: (context: ActionContext<WordsState, any>) => {
+        context.commit('setWordIndex', context.getters.prevIndex);
+       },
+    },
+    getters: {
+        wordsByTopics: (state) => (topic: string) => {
+            return (state.words || []).filter((word) => word && word.topics && word.topics[topic]);
         },
-        bindWordsByTopic: async (context: any, action: any) => {
-            const slug = action.slug;
-            const db = Firebase.getDb();
-            const queryRef = await db.collection(`words`).where(`topics.${slug}`, '==', true).get();
-            const docs = queryRef.docs.map((doc) => doc.data());
-            await context.commit('setWords', docs);
-            if (docs.length > 0) {
-                await context.dispatch('selectWord', { index: 0 });
-            }
-        },
-        shuffleWordOfTopic: firestoreAction(async (context) => {
-            const words = ((context.rootState as any).topics.topic.words);
-            const wordRef = randomPick(words);
-            return  context.bindFirestoreRef('word', wordRef);
-        }),
-        selectWord: (context: any, action: any) => {
-            const word = context.state.words[action.index];
-            context.commit('setWord', word);
-            context.commit('selectWord', action.index);
-        },
-        nextWord: (context: any, action: any) => {
-            const index = context.state.selectedId + 1;
-            context.dispatch('selectWord', { index });
-        },
-        prevWord: (context: any, action: any) => {
-            const index = context.state.selectedId - 1;
-            context.dispatch('selectWord', { index });
-        },
+        hasWords: (state) => (state && state.words && state.words.length > 0),
+        hasNext:  (state) => (state && state.player && state.player.wordIndex < state.player.wordIds.length),
+        hasPrev:  (state) => (state && state.player && state.player.wordIndex > 0),
+        prevIndex:  (state, getters) => (getters.currentIndex - 1),
+        nextIndex:  (state, getters) => (getters.currentIndex + 1),
+        currentIndex:  (state) => (state && state.player && +state.player.wordIndex || 0),
+        currentWord: (state, getters) =>  getters.wordByIndex(getters.currentIndex),
+        wordByIndex: (state) =>
+            (index: number) =>
+                state.words.find((word) => word.id === state.player.wordIds[index]),
     },
 };
+
+export default wordModule;

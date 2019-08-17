@@ -1,7 +1,7 @@
-import { firestoreAction } from 'vuexfire';
-import { Firebase } from '@/firebase/firebase';
 import { ActionContext } from 'vuex';
 import { ApplicationErrorAction } from '../config/actions';
+import * as api from '../../../apis/api';
+import { ITopic } from '@/models/Topic';
 
 class TopicNotFoundError extends ApplicationErrorAction {
     constructor() {
@@ -10,37 +10,32 @@ class TopicNotFoundError extends ApplicationErrorAction {
 }
 
 export interface TopicsState {
-    topics: any;
-    topic: any;
+    topics: ITopic[];
+    currectSlug: string;
 }
 
 export default {
+    namespaced: true,
     state: {
         topics: [],
-        topic: null,
+        currectSlug: '',
     },
     mutations: {
-        setTopic: (state: TopicsState, topic: any) => {
-            state.topic = topic;
+         setTopics: (state: TopicsState, topics: any) => {
+            state.topics = topics;
          },
-         clearTopic: (state: TopicsState) => {
-            state.topic = null;
+         setSlug: (state: TopicsState, slug: any) => {
+            state.currectSlug = slug;
          },
     },
     actions: {
-        bindTopics: firestoreAction((context) => {
-            const db = Firebase.getDb();
-            return context.bindFirestoreRef('topics', db.collection('topics'));
-        }),
-        bindTopicBySlug: async (context: ActionContext<TopicsState , any>, { slug }: any) => {
-            const db = Firebase.getDb();
-            const res = await db.collection('topics').where('slug', '==', slug).get();
-            const doc = res.docs.shift();
-            if ( !doc ) {
-                return context.dispatch(new TopicNotFoundError());
-            }
-            const topic = doc.data();
-            return context.commit('setTopic', topic);
+        getTopics: async (context: ActionContext<TopicsState, any>) => {
+            const res = await api.getTopics();
+            const topics = res.result;
+            return context.commit('setTopics', topics );
+        },
+        selectTopic: async (context: ActionContext<TopicsState , any>, { slug }: any) => {
+            return context.commit('setSlug', slug);
         },
     },
 };

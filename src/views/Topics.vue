@@ -29,11 +29,11 @@ import TopicList from '@/components/TopicList.vue'; // @ is an alias to /src
 })
 export default class Topics extends Vue {
   get topics(): any {
-    return this.$store.state.topics.topics;
+    return this.$store.state.topics.topics || [];
   }
 
   public mounted() {
-    this.$store.dispatch('bindTopics');
+    this.$store.dispatch('topics/getTopics');
   }
 }
 </script>

@@ -2,7 +2,7 @@
     <div class="container">
         <div v-if="word" class="card">
             <div class="card--top">
-                <img class="card-img" v-bind:src="word.image" alt="">
+                <img class="card-img" v-bind:src="word.img" alt="">
             </div>
             <div class="card--bottom">
                 <div class="card--bottom-headline">
@@ -12,7 +12,7 @@
                     </h1>
                 </div>
                     <div class="card--bottom-text">
-                        <p class="card--text">{{word.senntence}}</p>
+                        <p class="card--text">{{word.sentence}}</p>
                     </div>
             </div>
         </div>
@@ -20,15 +20,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
+import { IWord } from '../models/Word';
 
 @Component({
     props: {
-        word: Object,
+        word: Object as () => IWord,
         ttl: Number,
     },
 })
-export default class WordCard extends Vue {}
+export default class WordCard extends Vue {
+
+}
 </script>
 
 <style lang="scss" scoped>

@@ -4,8 +4,9 @@
         <br>
         <br>
         <br>
+        <div>{{ttl}}</div>
         <div>
-            <button v-on:click="back">
+            <button v-on:click="back" v-bind:disabled="!hasPrev">
                 <icon name="step backward"></icon>
             </button>
             <button v-if="paused" v-on:click="play">
@@ -14,7 +15,7 @@
             <button v-if="!paused" v-on:click="pause">
                 <icon name="pause"></icon>
             </button>
-            <button v-on:click="next">
+            <button v-on:click="next" v-bind:disabled="!hasNext">
                 <icon name="step forward"></icon>
             </button>
             </div>
@@ -29,6 +30,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import WordCard from '@/components/WordCard.vue'; // @ is an alias to /src
 import { Icon } from 'semantic-ui-vue';
+import { Ticker } from '@/vuex/modules/words/Ticker';
 
 @Component({
   components: {
@@ -37,56 +39,108 @@ import { Icon } from 'semantic-ui-vue';
   },
 })
 export default class Word extends Vue {
+    public ticker: Ticker = new Ticker(30);
 
-    get word(): any {
-        return this.$store.state.words.word;
+    get word() {
+        const word = this.$store.getters['words/currentWord'];
+        return word;
     }
 
-    get selectedWordId() {
-        return this.$store.state.words.selectedId;
+    get ttl() {
+        return this.ticker ? this.ticker.ttl : 0;
     }
-  public paused: boolean = false;
 
-   private intervalId: number = 0;
-   private ttl: number = 0;
+    get paused() {
+        return this.ticker ? this.ticker.paused : true;
+    }
+
+    get hasNext() {
+        return this.$store.getters['words/hasNext'];
+    }
+
+    get hasPrev() {
+        return this.$store.getters['words/hasPrev'];
+    }
+
+    get prevIndex() {
+        return this.$store.getters['words/prevIndex'];
+    }
+
+    get nextIndex() {
+        return this.$store.getters['words/nextIndex'];
+    }
+
+    get currentIndex() {
+        return this.$store.getters['words/currentIndex'];
+    }
+
+
+    public created() {
+        this.ticker.onTimeOut(() => {
+            this.onTimeOut();
+        });
+    }
 
     public mounted() {
-        this.ttl = 30;
-        this.intervalId = setInterval(() => {
-            if ( !this.paused ) {
-                this.countdown();
-            }
-        }, 1000);
+        this.reset();
+        const slug = this.$route.params.wslug;
+        if ( !slug ) {
+            return this.$router.replace({
+                name: 'word-detail',
+                params: {
+                    wslug: this.$store.state.words.player.wordIndex,
+                },
+            });
+        }
+        this.$store.commit('words/setWordIndex', slug );
         this.play();
     }
 
     public destroyed() {
-        clearInterval(this.intervalId);
+        this.ticker && this.ticker.stop();
     }
 
     public next() {
-        this.$store.dispatch('nextWord');
+        this.$store.dispatch('words/next');
+        this.$router.push({
+            name: 'word-detail',
+            params: {
+                wslug: this.nextIndex,
+            },
+        });
     }
 
     public back() {
-        this.$store.dispatch('prevWord');
+        this.$store.dispatch('words/back');
+        this.$router.push({
+            name: 'word-detail',
+            params: {
+                wslug: this.prevIndex,
+            },
+        });
+    }
+
+    public reset() {
+         this.ticker && this.ticker.reset();
     }
 
     public play() {
-        this.paused = false;
+        this.ticker && this.ticker.play();
     }
 
     public pause() {
-        this.paused = false;
+        this.ticker && this.ticker.pause();
     }
 
+    public finish() {
+        // TODO:
+    }
 
-    private countdown() {
-        this.ttl--;
-        if ( this.ttl <= 0) {
-            this.next();
-            this.ttl =  30;
+    private onTimeOut() {
+        if ( this.hasNext ) {
+            return this.next();
         }
+        this.finish();
     }
 }
 </script>

@@ -28,10 +28,11 @@ export default new Router({
       component: Topic,
       children: [
         {
-          path: 'word',
+          path: 'word/:wslug',
           name: 'word-detail',
           component: Word,
         },
+        { path: '', redirect: 'word/0' },
       ],
     },
     {

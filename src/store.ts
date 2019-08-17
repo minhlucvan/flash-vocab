@@ -1,11 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { vuexfireMutations } from 'vuexfire';
 import config, { ConfigState } from './vuex/modules/config';
 import words, { WordsState } from './vuex/modules/words';
 import topics, { TopicsState } from './vuex/modules/topics';
 import auth, { AuthState  } from './vuex/modules/auth';
-
 
 Vue.use(Vuex);
 
@@ -16,10 +14,7 @@ export interface AppState {
   auth: AuthState;
 }
 
-export default new Vuex.Store<any>({
-  mutations: {
-    ...vuexfireMutations,
-  },
+const store = new Vuex.Store<AppState>({
   modules: {
     config,
     words,
@@ -27,3 +22,9 @@ export default new Vuex.Store<any>({
     auth,
   },
 });
+
+store.watch((state) => state.topics.currectSlug, (slug) => {
+  store.dispatch('words/selectTopic', slug);
+});
+
+export default store;

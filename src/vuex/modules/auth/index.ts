@@ -1,7 +1,4 @@
-import { firestoreAction } from 'vuexfire';
-import { ActionContext, Action } from 'vuex';
-import { Firebase  } from '../../../firebase/firebase';
-import { ApplicationErrorAction } from '../config/actions';
+import { ActionContext } from 'vuex';
 
 export interface AuthUser {
     displayName: string;
@@ -29,10 +26,10 @@ export default {
     },
     actions: {
        login: (context: ActionContext<AuthState, any>, action: any) => {
-           Firebase.login();
+           // TODO:
        },
        logout: (context: ActionContext<AuthState, any>, action: any) => {
-            Firebase.getApp().auth().signOut();
+           // TODO:
        },
     },
     getters: {

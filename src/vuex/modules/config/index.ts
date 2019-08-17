@@ -1,15 +1,16 @@
 import { ApplicationError } from '@/errors';
 import { ActionContext, Module } from 'vuex';
+import { IConfig } from '@/models/Config';
 
 export interface ConfigState {
     appName: string;
-    config: any;
+    config: IConfig;
     error: ApplicationError | null;
 }
 const options: Module<ConfigState, any> =  {
     state: {
         appName: '',
-        config: [],
+        config: {},
         error: null,
     },
     mutations: {
