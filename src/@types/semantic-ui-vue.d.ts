@@ -7,4 +7,16 @@ declare module 'semantic-ui-vue' {
     export default instance;
 
     export const Icon: any;
+
+    export const Button: any;
+
+    export const Progress: any;
+
+    export const Menu: any;
+
+    export const MenuItem: any;
+
+    export const Sidebar: any;
+
+    export const Pusher: any;
 }

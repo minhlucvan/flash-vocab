@@ -1,11 +1,9 @@
 <template>
-  <div class="wrapper" v-if="topic" v-bind:style="{ backgroundImage: `url(${topic.cover})` }">
-    <router-link :to="{ name: 'topic', params: { tslug: topic.slug }}">
+  <div class="wrapper" v-if="topic" v-bind:style="topic.cover ? { backgroundImage: `url(${topic.cover})` } : {}">
+    <router-link :to="{ name: 'topic-start', params: { tslug: topic.slug }}">
       <div class="content">
         <h3 class="title">{{ topic.name }}</h3>
         <div class="desc">
-          Handle rulebreakers with ease using
-          <br />advanced moderation commands.
         </div>
       </div>
     </router-link>
@@ -19,10 +17,14 @@
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  background-image: linear-gradient(203deg, #3EDFD7 0%, #29A49D 90%);
 }
 .title,
 .desc {
   text-align: center;
+}
+a {
+  color: white;
 }
 </style>
 

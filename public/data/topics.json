@@ -1,6 +1,30 @@
 [
  {
-     "name": "topic-1",
+     "name": "0 - 299",
      "slug": "topic-1"
- }   
+ },
+ {
+    "name": "300 - 599",
+    "slug": "topic-2"
+},
+{
+    "name": "600 - 899",
+    "slug": "topic-3"
+},
+{
+    "name": "900 - 1199",
+    "slug": "topic-4"
+},
+{
+    "name": "1200 - 1499",
+    "slug": "topic-5"
+},
+{
+    "name": "1500 - 1799",
+    "slug": "topic-6"
+},
+{
+    "name": "1800 - 2000",
+    "slug": "topic-7"
+}   
 ]

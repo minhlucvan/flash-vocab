@@ -26,7 +26,6 @@ import { IWord } from '../models/Word';
 @Component({
     props: {
         word: Object as () => IWord,
-        ttl: Number,
     },
 })
 export default class WordCard extends Vue {

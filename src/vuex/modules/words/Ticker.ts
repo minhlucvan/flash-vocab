@@ -1,6 +1,6 @@
 export class Ticker {
     public ttl: number = 0;
-    public paused: boolean = false;
+    public paused: boolean = true;
     private intervalId: number = 0;
     private timeoutFn?: () => any;
     private stopped: boolean = false;

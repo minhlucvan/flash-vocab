@@ -52,12 +52,18 @@ const wordModule: Module<WordsState, any> = {
     actions: {
        getWords: async (context: ActionContext<WordsState, any>) => {
             const res = await api.getWords();
+
             const words  = (res.result || []).map((word) => {
                 word.topics  = {};
                 word.id = '' + word.index;
-                if (word && word.index <= 300) {
+                if (word.index <= 300) {
                     word.topics['topic-1'] = true;
+                } else if ( word.index <= 600) {
+                    word.topics['topic-2'] = true;
+                } else if (word.index <= 900) {
+                    word.topics['topic-3'] = true;
                 }
+
                 return word;
             });
             context.commit('setWords', words);

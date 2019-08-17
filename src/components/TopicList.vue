@@ -13,6 +13,7 @@
   list-style: none;
   display: flex;
   flex-flow: row wrap;
+  justify-content: space-around;
 }
 
 .list__item {
@@ -21,6 +22,7 @@
   flex: 1 0 25%;
   min-width: 300px;
   min-height: 20vh;
+  max-width: 400px;
   outline: 1px solid #fff;
 }
 </style>

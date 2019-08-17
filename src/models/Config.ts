@@ -1,3 +1,3 @@
 export interface IConfig {
-    noob?: any;
+    logos: any[];
 }

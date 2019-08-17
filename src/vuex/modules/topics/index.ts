@@ -11,21 +11,21 @@ class TopicNotFoundError extends ApplicationErrorAction {
 
 export interface TopicsState {
     topics: ITopic[];
-    currectSlug: string;
+    currentSlug: string;
 }
 
 export default {
     namespaced: true,
     state: {
         topics: [],
-        currectSlug: '',
+        currentSlug: '',
     },
     mutations: {
          setTopics: (state: TopicsState, topics: any) => {
             state.topics = topics;
          },
          setSlug: (state: TopicsState, slug: any) => {
-            state.currectSlug = slug;
+            state.currentSlug = slug;
          },
     },
     actions: {
@@ -35,7 +35,14 @@ export default {
             return context.commit('setTopics', topics );
         },
         selectTopic: async (context: ActionContext<TopicsState , any>, { slug }: any) => {
+            if ( !context.getters.hasTopics ) {
+                await context.dispatch('getTopics');
+            }
             return context.commit('setSlug', slug);
         },
+    },
+    getters: {
+        current: (state: TopicsState) => state.topics && state.topics.find((top) => top.slug === state.currentSlug),
+        hasTopics: (state: TopicsState) => state && state.topics && state.topics.length > 0,
     },
 };

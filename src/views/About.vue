@@ -1,5 +1,11 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <h1>Flash Vocab</h1>
   </div>
 </template>
+
+<style scoped>
+  .about {
+    padding: 50px;
+  }
+</style>

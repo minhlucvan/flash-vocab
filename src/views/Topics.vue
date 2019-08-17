@@ -1,5 +1,8 @@
 <template>
 <div class="container">
+  <div class="head">
+    <h1>Topics</h1>
+  </div>
   <div class="categories">
     <topic-list :topics="topics"></topic-list>
   </div>
@@ -7,10 +10,15 @@
 </template>
 
 <style lang="scss" scoped>
+.head {
+  padding: 40px;
+}
 .container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
+    overflow: auto;
 }
 .categories {
     display: flex;

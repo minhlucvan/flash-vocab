@@ -4,7 +4,10 @@ import Home from './views/Home.vue';
 import Word from './views/Word.vue';
 import Topics from './views/Topics.vue';
 import Topic from './views/Topic.vue';
-import TopicShuffle from './views/TopicShuffle.vue';
+import TopicStart from './views/TopicStart.vue';
+import TopicEnd from './views/TopicEnd.vue';
+
+
 
 Vue.use(Router);
 
@@ -32,7 +35,19 @@ export default new Router({
           name: 'word-detail',
           component: Word,
         },
-        { path: '', redirect: 'word/0' },
+        {
+          path: 'start',
+          name: 'topic-start',
+          component: TopicStart,
+        },
+        {
+          path: 'end',
+          name: 'topic-end',
+          component: TopicEnd,
+        },
+        { path: '/', redirect: 'start' },
+        { path: '', redirect: 'start' },
+        { path: '**', redirect: 'start' },
       ],
     },
     {
