@@ -41,12 +41,13 @@ export default class WordCard extends Vue {}
         margin-left: auto;
         margin-right: auto;
         width: 500px;
-        height: 425px;
+        height: 486px;
+        max-width: 100%;
     }
 
     .card--top{
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         width: 500px;
         height: 300px;
         //background-color: #3f3f3f;
@@ -54,12 +55,13 @@ export default class WordCard extends Vue {}
         border-radius: 8px;
         box-shadow: 0px 5px 25px #5b5b5b;
         overflow: hidden;
+        max-width: 100%;
     }
 
 
     .card--bottom{
         position: absolute;
-        z-index: 10;
+        z-index: 1;
         width: 400px;
         height: 200px;
         bottom: 0;
@@ -68,6 +70,8 @@ export default class WordCard extends Vue {}
         box-shadow: 0px 5px 25px #5b5b5b;
         margin-left:  50%;
         transform: translateX(-50%);
+        max-width: 100%;
+        padding-top: 48px;
     }
 
 
@@ -87,6 +91,6 @@ export default class WordCard extends Vue {}
         height: 100%;
     }
     .card--bottom-text {
-        padding: 40px;
+        padding: 5px;
     }
 </style>
