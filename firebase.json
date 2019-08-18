@@ -15,14 +15,14 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "headers": [{
-      "key": "Cache-Control",
-      "value": "max-age=3600"
-    }],
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "destination": "/index.html",
+        "headers": [{
+          "key": "Cache-Control",
+          "value": "max-age=3600"
+        }]
       }
     ]
   }
