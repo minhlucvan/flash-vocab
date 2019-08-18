@@ -6,6 +6,7 @@ import Topics from './views/Topics.vue';
 import Topic from './views/Topic.vue';
 import TopicStart from './views/TopicStart.vue';
 import TopicEnd from './views/TopicEnd.vue';
+import Player from './views/Player.vue';
 
 
 
@@ -31,9 +32,16 @@ export default new Router({
       component: Topic,
       children: [
         {
-          path: 'word/:wslug',
-          name: 'word-detail',
-          component: Word,
+          path: 'word',
+          name: 'player',
+          component: Player,
+          children: [
+            {
+              path: ':wslug',
+              name: 'word-detail',
+              component: Word,
+            },
+          ],
         },
         {
           path: 'start',

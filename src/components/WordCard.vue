@@ -1,19 +1,33 @@
 <template>
     <div class="container">
-        <div v-if="word" class="card">
-            <div class="card--top">
-                <img class="card-img" v-bind:src="word.img" alt="">
+        <div v-if="word" class="card-module">
+            <div class="title">
+                <div class="cat">{{word.word}}</div>
+                <!-- img size => 16:9-->
+                <div class="cover" :style="word.img ? { backgroundImage: `url(${word.img})` }: {} "></div>
             </div>
-            <div class="card--bottom">
-                <div class="card--bottom-headline">
-                    <h1 class="card--headline">
-                        <span>{{word.word}}</span>
-                        <!-- <audio controls b-bind:src="word.audio"></audio> -->
-                    </h1>
+            <div class="body">
+                <h2 class="chapter">
+                    {{word.word}}
+                </h2>
+                <p class="content">{{word.sentence}}</p>
+            </div>
+            <div class="footer">
+                <div class="favor">
+                    <!-- I use jQuery to prepend svg, because codePen can not save file.-->
+                    <!-- You can just use img src to replace jQuery prepend function-->
+                    <div class="icon read">
+                        <div class="svg js-svg-read"></div>
+                            <span>
+                                <Speaker :text="word.word" :lang="word.langCode"></Speaker>
+                            </span>
+                        </div>
+                    <div class="icon love">
+                        <div class="svg js-svg-love"></div><span></span></div>
                 </div>
-                    <div class="card--bottom-text">
-                        <p class="card--text">{{word.sentence}}</p>
-                    </div>
+                <div class="link">
+                    <sui-button icon="sync"></sui-button>
+                </div>
             </div>
         </div>
     </div>
@@ -22,10 +36,16 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { IWord } from '../models/Word';
+import { Button } from 'semantic-ui-vue';
+import Speaker from '@/components/Speaker.vue';
 
 @Component({
     props: {
         word: Object as () => IWord,
+    },
+    components: {
+        'sui-button': Button,
+        Speaker,
     },
 })
 export default class WordCard extends Vue {
@@ -34,65 +54,157 @@ export default class WordCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
-    .container{
-        margin-top: 50px;
+   $color_1: #00BAFF;
+    $color_2: #008BBF;
+    $color_3: #999;
+    $color_4: rgba(0, 186, 255, 0.87);
+
+    * {
+        box-sizing: border-box;
+        &::before {
+            box-sizing: border-box;
+        }
+        &::after {
+            box-sizing: border-box;
+        }
     }
 
-    .card {
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-        width: 500px;
-        height: 486px;
-        max-width: 100%;
-    }
-
-    .card--top{
-        position: absolute;
-        z-index: 2;
-        width: 500px;
-        height: 300px;
-        //background-color: #3f3f3f;
-        background-image: linear-gradient(270deg, #2af598 0%, #009efd 100%);
-        border-radius: 8px;
-        box-shadow: 0px 5px 25px #5b5b5b;
-        overflow: hidden;
-        max-width: 100%;
-    }
-
-
-    .card--bottom{
-        position: absolute;
-        z-index: 1;
-        width: 400px;
-        height: 200px;
-        bottom: 0;
-        background-color: #f3f3f3;
-        border-radius: 8px;
-        box-shadow: 0px 5px 25px #5b5b5b;
-        margin-left:  50%;
-        transform: translateX(-50%);
-        max-width: 100%;
-        padding-top: 48px;
-    }
-
-
-    .card--bottom-headline{
-        padding-top: 5px;
-    }
-
-    .card--headline{
-        padding-left: 25px;
-    }
-
-    .card--text{
-        padding-left: 25px;
-    }
-    .card-img {
-        width: 100%;
+    .container {
         height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px auto;
+        max-width: 400px;
+        letter-spacing: 0.5px;
     }
-    .card--bottom-text {
-        padding: 5px;
+    footer {
+        padding-top: 32px;
+        padding-bottom: 32px;
+        text-align: center;
+        a {
+            color: $color_1;
+            &:hover {
+                color: $color_2;
+            }
+        }
     }
+    .card-module {
+        border-radius: 6px;
+        border-right: 1.5px solid rgba(0, 0, 0, 0.1);
+        border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);
+        .title {
+            position: relative;
+            width: 100%;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+        .cat {
+            position: absolute;
+            top: 5%;
+            left: 0;
+            padding: 2% 12% 2% 2%;
+            background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+            font-size: 14px;
+        }
+        .cover {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+        .body {
+            padding: 16px;
+            background: #FFF;
+            .chapter {
+                margin-top: 0;
+                margin-bottom: 8px;
+                font-size: 24px;
+            }
+            .content {
+                margin: 0 0 4px;
+                line-height: 1.25;
+                font-size: 16px;
+                min-width: 300px;
+                min-height: 50px;
+                @media (min-width: 768px) {
+                    min-width: 500px;
+                    min-height: 150px;
+                }
+            }
+        }
+        .footer {
+            position: relative;
+            display: flex;
+            padding: 16px;
+            background: #FFF;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                width: 100%;
+                height: 1px;
+                background: linear-gradient(to right, rgba(204, 204, 204, 0) 0%, rgba(204, 204, 204, 0) 20%, #dddddd 50%, rgba(204, 204, 204, 0) 80%, rgba(204, 204, 204, 0) 100%);
+            }
+        }
+        .favor {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 75%;
+        }
+        .link {
+            width: 25%;
+            text-align: right;
+            a {
+                display: inline-block;
+                padding: 8px 24px;
+                border-radius: 6px;
+                text-decoration: none;
+                color: $color_4;
+                transition: all ease 0.5s;
+                &:hover {
+                    background: rgba(0, 186, 255, 0.24);
+                    color: $color_2;
+                }
+                &:active {
+                    background: rgba(0, 186, 255, 0.24);
+                    color: $color_2;
+                }
+            }
+        }
+        .icon {
+            display: flex;
+            font-size: 14px;
+            .svg {
+                margin-right: 4px;
+                color: $color_3;
+            }
+            span {
+                margin-right: 4px;
+                color: $color_3;
+                display: inline-block;
+            }
+            svg {
+                width: 16px;
+                height: 16px;
+                path {
+                    fill: #999;
+                }
+            }
+        }
+        .icon.read {
+            margin-right: 8px;
+        }
+}
+
+
 </style>

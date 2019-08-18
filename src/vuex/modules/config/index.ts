@@ -1,7 +1,7 @@
 import { ApplicationError } from '@/errors';
 import { ActionContext, Module } from 'vuex';
 import { IConfig } from '@/models/Config';
-import * as api from '@/apis/api'; 
+import * as api from '@/apis/api';
 
 export interface ConfigState {
     appName: string;

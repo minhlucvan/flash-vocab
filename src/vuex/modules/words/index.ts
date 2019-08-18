@@ -56,6 +56,7 @@ const wordModule: Module<WordsState, any> = {
             const words  = (res.result || []).map((word) => {
                 word.topics  = {};
                 word.id = '' + word.index;
+                word.langCode = 'zh';
                 if (word.index <= 300) {
                     word.topics['topic-1'] = true;
                 } else if ( word.index <= 600) {
