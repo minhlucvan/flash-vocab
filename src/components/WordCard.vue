@@ -132,7 +132,7 @@ export default class WordCard extends Vue {
                 min-width: 300px;
                 min-height: 30px;
                 @media (min-width: 768px) {
-                    min-width: 500px;
+                    min-width: 400px;
                     min-height: 50px;
                 }
             }

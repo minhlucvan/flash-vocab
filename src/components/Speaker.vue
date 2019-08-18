@@ -46,7 +46,7 @@ export default class Speaker extends Vue {
     }
 
     public speak() {
-        if ( !this.audio ) {
+        if ( !responsiveVoice ) {
             return;
         }
         responsiveVoice.speak(this.$props.text, this.$props.voice);
