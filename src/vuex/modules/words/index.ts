@@ -57,6 +57,7 @@ const wordModule: Module<WordsState, any> = {
                 word.topics  = {};
                 word.id = '' + word.index;
                 word.langCode = 'zh';
+                word.voice = 'Chinese Female';
                 if (word.index <= 300) {
                     word.topics['topic-1'] = true;
                 } else if ( word.index <= 600) {

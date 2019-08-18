@@ -6,6 +6,11 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Button } from 'semantic-ui-vue';
 
+declare const responsiveVoice: any;
+if ( responsiveVoice ) {
+    responsiveVoice.setDefaultVoice('US English Female');
+}
+
 @Component({
     components: {
         Button,
@@ -13,6 +18,7 @@ import { Button } from 'semantic-ui-vue';
     props: {
         text: String,
         lang: String,
+        voice: String,
     },
 })
 export default class Speaker extends Vue {
@@ -21,8 +27,7 @@ export default class Speaker extends Vue {
     get enabled(): boolean {
         return !!this.$props.text &&
                !!this.$props.lang &&
-               !!this.audio &&
-               this.audio.readyState !== 0;
+               responsiveVoice;
     }
 
     @Watch('$props.text')
@@ -37,14 +42,14 @@ export default class Speaker extends Vue {
     }
 
     public mounted() {
-        this.loadAudio();
+        // this.loadAudio();
     }
 
     public speak() {
         if ( !this.audio ) {
             return;
         }
-        this.audio.play();
+        responsiveVoice.speak(this.$props.text, this.$props.voice);
     }
 }
 </script>

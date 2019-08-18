@@ -19,7 +19,7 @@
                     <div class="icon read">
                         <div class="svg js-svg-read"></div>
                             <span>
-                                <Speaker :text="word.word" :lang="word.langCode"></Speaker>
+                                <Speaker :text="word.word" :lang="word.langCode" :voice="word.voice"></Speaker>
                             </span>
                         </div>
                     <div class="icon love">
