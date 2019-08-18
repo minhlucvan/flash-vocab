@@ -17,6 +17,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import WordCard from '@/components/WordCard.vue'; // @ is an alias to /src
 import { Button, Progress } from 'semantic-ui-vue';
 import { Ticker } from '@/vuex/modules/words/Ticker';
+import { setTimeout } from 'timers';
 
 @Component({
   components: {
@@ -45,6 +46,14 @@ export default class Word extends Vue {
             });
         }
         this.$store.commit('words/setWordIndex', slug );
+
+        setTimeout(() => {
+            if ( !this.word ) {
+                 return this.$router.replace({
+                    name: 'topic-start',
+                });
+            }
+        }, 3000);
     }
 
     public async changeImage() {

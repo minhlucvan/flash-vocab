@@ -14,14 +14,15 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+  max-width: 1400px;
 }
 
 .list__item {
-  margin: 20px;
+  margin: 10px;
   padding: 0;
   flex: 1 0 25%;
   min-width: 300px;
-  min-height: 20vh;
+  min-height: 16vh;
   max-width: 400px;
   outline: 1px solid #fff;
 }

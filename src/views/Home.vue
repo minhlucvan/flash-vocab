@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <div v-if="logo">
+        <div class="card" v-if="logo">
           <img :src="logo.url" alt="logo">
         </div>
         <div class="head">
@@ -17,12 +17,37 @@
 
 <style scoped lang="scss">
    .home {
-       padding: 10px;
+      padding: 10px;
+      padding: 10px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      .card {
+        padding: 15px;
+        width: 300px;
+        align-self: center;
+        img {
+          width: 70%;
+        }
+        @media (min-width: 768px)  {
+            img {
+              width: 100%;
+            }
+          width: 400px;
+          padding: 35px;
+          }
+      }
        .head  {
-          padding: 50px;
+          padding: 12px;
        }
        .content {
-            padding: 50px;
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
        }
    }
 </style>

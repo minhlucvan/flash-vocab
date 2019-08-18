@@ -1,31 +1,42 @@
 <template>
-    <div class="player">
-
-        <transition class="faster" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-            <router-view :key="$route.fullPath"></router-view>
-        </transition>
-
-        <div>
-            <div class="nav-button">
-                <sui-button basic color="teal" size="huge" class="btn" v-on:click="back" v-bind:disabled="!hasPrev" icon="step backward" />
-                <sui-button basic color="teal" size="huge" class="btn" v-if="paused" v-on:click="play" icon="play" />
-                <sui-button basic color="teal" size="huge" class="btn" v-if="!paused" v-on:click="pause" icon="pause" />
-                <sui-button basic color="teal" size="huge" class="btn" v-on:click="next" v-bind:disabled="!hasNext" icon="step forward" />
+    <SidebarPushable>
+        <Sidebar animation="overlay" direction="right" class="inverted" :visible="showWordList">
+            <h3 class="sidebar-title">Words</h3>
+            <div class="sidebar-content">
+                <WordList :words="words" v-on:selected="selectedWord"></WordList>
             </div>
-        </div>
-        <sui-progress
-            attached
-            top
-            size="mini"
-            color="teal"
-            :percent="((ttl || 0))/30*100"
-            label="timeout"
-        />
-    </div>
+        </Sidebar>
+        <SidebarPusher :dimmed="showWordList" @click="closeWordList">
+                <div class="player">
+                <transition class="faster" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+                    <router-view :key="$route.fullPath"></router-view>
+                </transition>
+
+                <div>
+                    <div class="nav-button">
+                        <sui-button basic color="teal" size="huge" class="btn" v-on:click="back" v-bind:disabled="!hasPrev" icon="step backward" />
+                        <sui-button basic color="teal" size="huge" class="btn" v-if="paused" v-on:click="play" icon="play" />
+                        <sui-button basic color="teal" size="huge" class="btn" v-if="!paused" v-on:click="pause" icon="pause" />
+                        <sui-button basic color="teal" size="huge" class="btn" v-on:click="next" v-bind:disabled="!hasNext" icon="step forward" />
+                    </div>
+                </div>
+                <sui-progress
+                    attached
+                    top
+                    size="mini"
+                    color="teal"
+                    :percent="((ttl || 0))/30*100"
+                    label="timeout"
+                />
+            </div>
+            <Button class="menu-btn" basic color="teal" icon="bars" @click="openWordList"></Button>
+        </SidebarPusher>
+    </SidebarPushable>
 </template>
 
 <style lang="scss" scoped>
     .player {
+        position: absolute;
         display: flex;
         flex: auto;
         width: 100%;
@@ -33,14 +44,36 @@
         flex-direction: column;
         justify-content: space-between;
     }
+    .sidebar-title {
+        color: white;
+    }
+    .sidebar-content {
+
+    }
+    .menu-btn {
+        position: absolute;
+        right: 0;
+    }
 </style>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { AppState } from '../store';
 import { Ticker } from '@/vuex/modules/words/Ticker';
+import { SidebarPushable, Sidebar, SidebarPusher, MenuHeader, Button } from 'semantic-ui-vue';
+import WordList from '@/components/WordList.vue';
+import { IWord } from '../models/Word';
 
-@Component
+@Component({
+    components: {
+        SidebarPushable,
+        SidebarPusher,
+        Sidebar,
+        MenuHeader,
+        WordList,
+        Button,
+    },
+})
 export default class Player extends Vue {
 
     get ttl() {
@@ -70,7 +103,13 @@ export default class Player extends Vue {
     get currentIndex() {
         return this.$store.getters['words/currentIndex'];
     }
+
+    get words() {
+        return this.$store.getters['words/playingWords'];
+    }
+
     public ticker: Ticker = new Ticker(30);
+   private showWordList: boolean = false;
 
     public created() {
         this.ticker.onTimeOut(() => {
@@ -124,7 +163,27 @@ export default class Player extends Vue {
     }
 
     public finish() {
-        // TODO:
+        this.$router.push({
+            name: 'topic-end',
+            append: true,
+        });
+    }
+
+    public openWordList(event: MouseEvent) {
+      event.cancelBubble = true;
+      this.showWordList = true;
+      this.pause();
+    }
+
+    public closeWordList() {
+      this.showWordList = false;
+      this.play();
+    }
+
+
+    public selectedWord(index: number) {
+        this.closeWordList();
+        this.$router.push({ name: 'word-detail', params: { wslug: '' + index } });
     }
 
         private onTimeOut() {

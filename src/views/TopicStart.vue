@@ -4,8 +4,8 @@
             <h1>{{topic.name}}</h1>
         </div>
         <div class="content">
-            <router-link :to="{ name: 'word-detail', params: { wslug: 0 } }">
-                <sui-button size="massive"  color="teal" content="Start" icon="play" />
+            <router-link :to="{ name: 'word-detail', params: { wslug: '0' } }">
+                <sui-button size="massive"  color="teal" content="Play" icon="play" />
             </router-link>
         </div>
     </div>
@@ -16,12 +16,18 @@
         padding: 0px;
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
     }
     .head {
         padding: 40px;
     }
     .content {
-        padding-bottom: 100px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
     }
 </style>
 

@@ -68,9 +68,9 @@ const wordModule: Module<WordsState, any> = {
        getWords: async (context: ActionContext<WordsState, any>) => {
             const res = await api.getWords();
 
-            const words  = (res.result || []).map((word) => {
+            const words  = (res.result || []).map((word, index) => {
                 word.topics  = {};
-                word.id = '' + word.index;
+                word.id = '' + index;
                 word.langCode = 'zh';
                 word.voice = 'Chinese Female';
                 if (word.index <= 300) {
@@ -117,12 +117,13 @@ const wordModule: Module<WordsState, any> = {
             return (state.words || []).filter((word) => word && word.topics && word.topics[topic]);
         },
         hasWords: (state) => (state && state.words && state.words.length > 0),
-        hasNext:  (state) => (state && state.player && state.player.wordIndex < state.player.wordIds.length),
+        hasNext:  (state) => (state && state.player && state.player.wordIndex < state.player.wordIds.length - 1),
         hasPrev:  (state) => (state && state.player && state.player.wordIndex > 0),
         prevIndex:  (state, getters) => (getters.currentIndex - 1),
         nextIndex:  (state, getters) => (getters.currentIndex + 1),
         currentIndex:  (state) => (state && state.player && +state.player.wordIndex || 0),
         currentWord: (state, getters) =>  getters.wordByIndex(getters.currentIndex),
+        playingWords: (state) =>  state.words.filter((word) => state.player.wordIds.includes(word.id)),
         wordByIndex: (state) =>
             (index: number) =>
                 state.words.find((word) => word.id === state.player.wordIds[index]),

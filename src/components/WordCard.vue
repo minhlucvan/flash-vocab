@@ -50,11 +50,15 @@ import Speaker from '@/components/Speaker.vue';
     },
 })
 export default class WordCard extends Vue {
-    @Watch('$pops.word')
-    public checkImg(word: IWord) {
-        if ( !word.img ) {
+    @Watch('$props.word')
+    public checkImg() {
+        if ( this.$props.word && !this.$props.word.img ) {
             this.changeImage();
         }
+    }
+
+    public mounted() {
+        this.checkImg();
     }
 
     public changeImage() {
@@ -126,6 +130,7 @@ export default class WordCard extends Vue {
             background-repeat: no-repeat;
             border-top-left-radius: 6px;
             border-top-right-radius: 6px;
+            background-color: #00000082;
         }
         .body {
             padding: 16px;
@@ -143,6 +148,11 @@ export default class WordCard extends Vue {
                 min-height: 20px;
                 @media (min-width: 768px) {
                     min-width: 400px;
+                    min-height: 50px;
+                }
+
+                @media (min-width: 960px) {
+                    min-width: 480px;
                     min-height: 50px;
                 }
             }

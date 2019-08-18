@@ -15,9 +15,15 @@ declare module 'semantic-ui-vue' {
 
     export const Menu: any;
 
+    export const MenuMenu: any;
+
     export const MenuItem: any;
 
     export const Sidebar: any;
 
-    export const Pusher: any;
+    export const SidebarPushable: any;
+
+    export const SidebarPusher: any;
+
+    export const MenuHeader: any;
 }

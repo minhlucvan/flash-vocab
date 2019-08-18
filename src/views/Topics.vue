@@ -23,6 +23,7 @@
 .categories {
     display: flex;
     width: 100%;
+    justify-content: space-around;
 }
 </style>
 
