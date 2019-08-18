@@ -79,6 +79,14 @@ const wordModule: Module<WordsState, any> = {
                     word.topics['topic-2'] = true;
                 } else if (word.index <= 900) {
                     word.topics['topic-3'] = true;
+                }  else if (word.index <= 1200) {
+                    word.topics['topic-4'] = true;
+                }  else if (word.index <= 1500) {
+                    word.topics['topic-5'] = true;
+                }  else if (word.index <= 1800) {
+                    word.topics['topic-6'] = true;
+                } else {
+                    word.topics['topic-7'] = true;
                 }
 
                 return word;
