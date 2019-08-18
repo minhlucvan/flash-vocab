@@ -1,6 +1,6 @@
 <template>
     <div class="word">
-        <word-card :word="word"></word-card>
+        <word-card :word="word" v-on:changeImage="changeImage" :pedding="imagePedding"></word-card>
     </div>
 </template>
 
@@ -26,6 +26,7 @@ import { Ticker } from '@/vuex/modules/words/Ticker';
   },
 })
 export default class Word extends Vue {
+    private  imagePedding: boolean = false;
 
     get word() {
         const word = this.$store.getters['words/currentWord'];
@@ -46,6 +47,14 @@ export default class Word extends Vue {
         this.$store.commit('words/setWordIndex', slug );
     }
 
+    public async changeImage() {
+        const slug = this.$route.params.wslug;
+        this.imagePedding = true;
+        await this.$store.dispatch('words/changeImage', slug );
+        this.$forceUpdate();
+        this.imagePedding = false;
+
+    }
 
 
 }

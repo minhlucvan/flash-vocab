@@ -68,7 +68,7 @@ export default class App extends Vue {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 2px solid rgba(34, 36, 38, 0.15);
+    // border-bottom: 2px solid rgba(34, 36, 38, 0.15);
     img {
       width: 90%;
       height: 90%;

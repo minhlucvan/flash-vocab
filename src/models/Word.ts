@@ -3,6 +3,7 @@ export interface IWord {
     index: number;
     langCode: string;
     voice: string;
+    img: string;
     topics: {
         [key: string]: boolean;
     };

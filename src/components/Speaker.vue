@@ -1,10 +1,11 @@
 <template>
-    <Button :disabled="!enabled" icon="headphones" :click="speak" ></Button>
+    <Button :disabled="!enabled" icon="headphones" v-on:click="speak" ></Button>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Button } from 'semantic-ui-vue';
+import { setTimeout } from 'timers';
 
 declare const responsiveVoice: any;
 if ( responsiveVoice ) {
@@ -30,23 +31,19 @@ export default class Speaker extends Vue {
                responsiveVoice;
     }
 
-    @Watch('$props.text')
+    // @Watch('$props')
     public loadAudio() {
-        if (!this.$props.text || !this.$props.lang) {
-            return;
-        }
-        // tslint:disable-next-line
-        this.audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&q=${this.$props.text}&tl=${this.$props.lang}&client=tw-ob`);
-        this.audio.load();
-        this.audio.autoplay = true;
+        // TODO:
     }
 
     public mounted() {
-        // this.loadAudio();
+        setTimeout(() => {
+            this.speak();
+        }, 3000);
     }
 
     public speak() {
-        if ( !responsiveVoice ) {
+        if ( !this.enabled ) {
             return;
         }
         responsiveVoice.speak(this.$props.text, this.$props.voice);

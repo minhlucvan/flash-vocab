@@ -2,6 +2,9 @@ import { ApplicationErrorAction } from '../config/actions';
 import { IWord } from '@/models/Word';
 import { ActionContext, Module } from 'vuex';
 import * as api from '@/apis/api';
+import * as giphy from '@/apis/giphy';
+import Vue from 'vue';
+import { stat } from 'fs';
 
 class WordNotFoundError extends ApplicationErrorAction {
     constructor() {
@@ -48,6 +51,18 @@ const wordModule: Module<WordsState, any> = {
        setWordIndex: (state: WordsState, index: number) => {
         state.player.wordIndex = index;
        },
+       updateWord: (state: WordsState, word: any) => {
+        if ( !word || !word.id ) {
+            return;
+        }
+
+        const index = state.words.findIndex((w) => w.id === word.id);
+
+        if (  index < 0) {
+            return;
+        }
+        Vue.set(state.words, index, { ...state.words[index], ...word });
+       },
     },
     actions: {
        getWords: async (context: ActionContext<WordsState, any>) => {
@@ -88,6 +103,14 @@ const wordModule: Module<WordsState, any> = {
        back: (context: ActionContext<WordsState, any>) => {
         context.commit('setWordIndex', context.getters.prevIndex);
        },
+       changeImage: async (context: ActionContext<WordsState, any>, slug) => {
+            const word = context.getters.wordByIndex(slug);
+            const res = await giphy.random(word.word);
+            if ( !res || !res.data || !res.data.image_url) {
+                return;
+            }
+            return context.commit('updateWord', { id: word.id, img: res.data.image_url});
+        },
     },
     getters: {
         wordsByTopics: (state) => (topic: string) => {

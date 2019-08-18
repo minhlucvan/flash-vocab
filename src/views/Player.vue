@@ -6,9 +6,6 @@
         </transition>
 
         <div>
-            <br>
-            <br>
-            <br>
             <div class="nav-button">
                 <sui-button basic color="teal" size="huge" class="btn" v-on:click="back" v-bind:disabled="!hasPrev" icon="step backward" />
                 <sui-button basic color="teal" size="huge" class="btn" v-if="paused" v-on:click="play" icon="play" />

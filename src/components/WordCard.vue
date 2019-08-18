@@ -26,7 +26,7 @@
                         <div class="svg js-svg-love"></div><span></span></div>
                 </div>
                 <div class="link">
-                    <sui-button icon="random"></sui-button>
+                    <sui-button v-on:click="changeImage" icon="random" :loading="pedding"></sui-button>
                 </div>
             </div>
         </div>
@@ -42,6 +42,7 @@ import Speaker from '@/components/Speaker.vue';
 @Component({
     props: {
         word: Object as () => IWord,
+        pedding: Boolean,
     },
     components: {
         'sui-button': Button,
@@ -49,7 +50,16 @@ import Speaker from '@/components/Speaker.vue';
     },
 })
 export default class WordCard extends Vue {
+    @Watch('$pops.word')
+    public checkImg(word: IWord) {
+        if ( !word.img ) {
+            this.changeImage();
+        }
+    }
 
+    public changeImage() {
+        this.$emit('changeImage');
+    }
 }
 </script>
 
@@ -130,7 +140,7 @@ export default class WordCard extends Vue {
                 line-height: 1.25;
                 font-size: 16px;
                 min-width: 300px;
-                min-height: 30px;
+                min-height: 20px;
                 @media (min-width: 768px) {
                     min-width: 400px;
                     min-height: 50px;
