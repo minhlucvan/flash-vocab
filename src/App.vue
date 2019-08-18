@@ -91,9 +91,9 @@ export default class App extends Vue {
     }
     &.active {
       a {
-        color: #00B5AD;
+        color: #4DBA87;
       }
-      border-color: #00B5AD;
+      border-color: #4DBA87;
     }
   }
 }
@@ -107,6 +107,6 @@ export default class App extends Vue {
   padding: 5px;
 }
 a {
-  color: #00B5AD;
+  color: #4DBA87;
 }
 </style>
