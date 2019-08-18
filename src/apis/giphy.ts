@@ -2,7 +2,9 @@
 import giphy from 'giphy-api';
 
 
-const giphyApi = giphy();
+const giphyApi = giphy({
+    https: window.location.protocol.includes('htttps'),
+});
 
 export async function search(key: any) {
     return giphyApi.search(key);
