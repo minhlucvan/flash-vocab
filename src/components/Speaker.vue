@@ -31,8 +31,9 @@ export default class Speaker extends Vue {
             return;
         }
         // tslint:disable-next-line
-        this.audio = new Audio(`https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${this.$props.text}&tl=${this.$props.lang}&client=tw-ob`);
+        this.audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&q=${this.$props.text}&tl=${this.$props.lang}&client=tw-ob`);
         this.audio.load();
+        this.audio.autoplay = true;
     }
 
     public mounted() {

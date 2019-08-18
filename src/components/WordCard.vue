@@ -26,7 +26,7 @@
                         <div class="svg js-svg-love"></div><span></span></div>
                 </div>
                 <div class="link">
-                    <sui-button icon="sync"></sui-button>
+                    <sui-button icon="random"></sui-button>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@ export default class WordCard extends Vue {
             background: #FFF;
             .chapter {
                 margin-top: 0;
-                margin-bottom: 8px;
+                margin-bottom: 16px;
                 font-size: 24px;
             }
             .content {
@@ -130,10 +130,10 @@ export default class WordCard extends Vue {
                 line-height: 1.25;
                 font-size: 16px;
                 min-width: 300px;
-                min-height: 50px;
+                min-height: 30px;
                 @media (min-width: 768px) {
                     min-width: 500px;
-                    min-height: 150px;
+                    min-height: 50px;
                 }
             }
         }
@@ -182,7 +182,7 @@ export default class WordCard extends Vue {
             }
         }
         .icon {
-            display: flex;
+            display: inline-block;
             font-size: 14px;
             .svg {
                 margin-right: 4px;
