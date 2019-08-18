@@ -106,10 +106,10 @@ const wordModule: Module<WordsState, any> = {
        changeImage: async (context: ActionContext<WordsState, any>, slug) => {
             const word = context.getters.wordByIndex(slug);
             const res = await giphy.random(word.word);
-            if ( !res || !res.data || !res.data.image_url) {
+            if ( !res || !res.data || !(res.data as any).image_url) {
                 return;
             }
-            return context.commit('updateWord', { id: word.id, img: res.data.image_url});
+            return context.commit('updateWord', { id: word.id, img: (res.data as any).image_url});
         },
     },
     getters: {

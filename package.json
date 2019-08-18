@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/giphy-api": "^2.0.2",
     "animate.css": "^3.7.2",
     "core-js": "^2.6.5",
     "firebase": "^6.3.3",
