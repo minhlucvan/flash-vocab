@@ -1,7 +1,7 @@
 <template>
     <div class="home">
-        <div class="card" v-if="logo">
-          <img :src="logo.url" alt="logo">
+        <div class="card" >
+          <img v-if="logo" :src="logo.url" alt="logo">
         </div>
         <div class="head">
             <h1>Welcome to Flash Vocab</h1>
@@ -25,6 +25,7 @@
       justify-content: space-around;
       .card {
         padding: 15px;
+        min-height: 200px;
         width: 300px;
         align-self: center;
         img {
@@ -34,6 +35,7 @@
             img {
               width: 100%;
             }
+          min-height: 350px;  
           width: 400px;
           padding: 35px;
           }
