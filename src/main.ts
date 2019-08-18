@@ -7,6 +7,10 @@ import './styles/index.scss';
 import './sui';
 import './registerServiceWorker';
 
+window.addEventListener('beforeinstallprompt', (event: any) => {
+  event.prompt();
+});
+
 new Vue({
   router,
   store,

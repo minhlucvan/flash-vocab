@@ -44,12 +44,6 @@ export default class App extends Vue {
   get error() {
     return this.$store.state.config.error;
   }
-
-  public created() {
-    window.addEventListener('beforeinstallprompt', (event: any) => {
-      event.prompt();
-    });
-  }
 }
 </script>
 
