@@ -1,5 +1,24 @@
 # flash-vocab
 
+flash card PWA using vuejs
+
+live demo: [https://flash-vocab-72773.firebaseapp.com](https://flash-vocab-72773.firebaseapp.com)
+
+# Screenshots
+
+![home](docs/img/home.png)
+
+![home](docs/img/topics.png)
+
+![home](docs/img/start.png)
+
+![home](docs/img/player.png)
+
+![home](docs/img/end.png)
+
+![home](docs/img/about.png)
+
+
 ## Project setup
 ```
 npm install
