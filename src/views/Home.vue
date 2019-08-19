@@ -35,7 +35,7 @@
             img {
               width: 100%;
             }
-          min-height: 350px;  
+          min-height: 320px;  
           width: 400px;
           padding: 35px;
           }
