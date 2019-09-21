@@ -13,6 +13,8 @@ const options: Module<ConfigState, any> =  {
         appName: '',
         config: {
             logos: [],
+            topics_file: 'topics-en.json',
+            words_file: 'words-en.json',
         },
         error: null,
     },
@@ -43,6 +45,12 @@ const options: Module<ConfigState, any> =  {
         },
         logo: (state: ConfigState) => {
             return state.config.logos[Math.floor(Math.random() * state.config.logos.length)];
+        },
+        wordsFile:  (state: ConfigState) => {
+            return state.config.words_file;
+        },
+        topicsFile:  (state: ConfigState) => {
+            return state.config.topics_file;
         },
     },
 };

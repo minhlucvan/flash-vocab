@@ -66,27 +66,30 @@ const wordModule: Module<WordsState, any> = {
     },
     actions: {
        getWords: async (context: ActionContext<WordsState, any>) => {
-            const res = await api.getWords();
+            const res = await api.getWords(context.rootGetters.wordsFile);
 
             const words  = (res.result || []).map((word, index) => {
-                word.topics  = {};
-                word.id = '' + index;
-                word.langCode = 'zh';
-                word.voice = 'Chinese Female';
-                if (word.index <= 300) {
-                    word.topics['topic-1'] = true;
-                } else if ( word.index <= 600) {
-                    word.topics['topic-2'] = true;
-                } else if (word.index <= 900) {
-                    word.topics['topic-3'] = true;
-                }  else if (word.index <= 1200) {
-                    word.topics['topic-4'] = true;
-                }  else if (word.index <= 1500) {
-                    word.topics['topic-5'] = true;
-                }  else if (word.index <= 1800) {
-                    word.topics['topic-6'] = true;
-                } else {
-                    word.topics['topic-7'] = true;
+                word.id = word.id || '' + index;
+                word.langCode = word.langCode || 'zh';
+                word.voice = word.voice || 'Chinese Female';
+
+                if (!word.topics) {
+                    word.topics = word.topics || {};
+                    if (word.index <= 300) {
+                        word.topics['topic-1'] = true;
+                    } else if ( word.index <= 600) {
+                        word.topics['topic-2'] = true;
+                    } else if (word.index <= 900) {
+                        word.topics['topic-3'] = true;
+                    }  else if (word.index <= 1200) {
+                        word.topics['topic-4'] = true;
+                    }  else if (word.index <= 1500) {
+                        word.topics['topic-5'] = true;
+                    }  else if (word.index <= 1800) {
+                        word.topics['topic-6'] = true;
+                    } else {
+                        word.topics['topic-7'] = true;
+                    }
                 }
 
                 return word;

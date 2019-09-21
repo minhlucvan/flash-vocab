@@ -105,5 +105,7 @@
         {
             "url": "/img/cards/cartoon-lion-flashcard-for-children-vector-20299781.jpg"
         }
-    ]
+    ],
+    "topics_file": "topics-en.json",
+    "words_file": "words-en.json"
 }

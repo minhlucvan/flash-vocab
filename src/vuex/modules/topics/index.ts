@@ -30,7 +30,7 @@ export default {
     },
     actions: {
         getTopics: async (context: ActionContext<TopicsState, any>) => {
-            const res = await api.getTopics();
+            const res = await api.getTopics(context.rootGetters.topicsFile);
             const topics = res.result;
             return context.commit('setTopics', topics );
         },
