@@ -6,6 +6,8 @@ live demo: [https://flash-vocab-72773.firebaseapp.com](https://flash-vocab-72773
 
 # Screenshots
 
+![responsive](docs/img/responsive.png)
+
 ![home](docs/img/home.png)
 
 ![home](docs/img/topics.png)
@@ -13,8 +15,6 @@ live demo: [https://flash-vocab-72773.firebaseapp.com](https://flash-vocab-72773
 ![home](docs/img/start.png)
 
 ![home](docs/img/player.png)
-
-![home](docs/img/end.png)
 
 ![home](docs/img/about.png)
 
